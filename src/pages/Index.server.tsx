@@ -6,13 +6,15 @@ import {
   Link,
 } from '@shopify/hydrogen';
 import gql from 'graphql-tag';
+import {FC} from 'react';
 
 import Layout from '../components/Layout.server';
 import FeaturedCollection from '../components/FeaturedCollection.server';
 import ProductCard from '../components/ProductCard.server';
 import Welcome from '../components/Welcome.server';
+import {IndexQueryResponse} from '../interfaces/IndexQueryResponse';
 
-function GradientBackground() {
+const GradientBackground: FC = () => {
   return (
     <div className="fixed top-0 w-full h-3/5 overflow-hidden">
       <div className="absolute w-full h-full bg-gradient-to-t from-gray-50 z-10" />
@@ -65,10 +67,14 @@ function GradientBackground() {
       </svg>
     </div>
   );
+};
+
+interface IndexProps {
+  country?: {isoCode: string};
 }
 
-export default function Index({country = {isoCode: 'US'}}) {
-  const {data} = useShopQuery({
+const Index: FC<IndexProps> = ({country = {isoCode: 'US'}}) => {
+  const {data} = useShopQuery<IndexQueryResponse>({
     query: QUERY,
     variables: {
       country: country.isoCode,
@@ -104,7 +110,7 @@ export default function Index({country = {isoCode: 'US'}}) {
                 </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-                {featuredProducts.map((product) => (
+                {featuredProducts?.map((product) => (
                   <div key={product.id}>
                     <ProductCard product={product} />
                   </div>
@@ -125,7 +131,7 @@ export default function Index({country = {isoCode: 'US'}}) {
       </div>
     </Layout>
   );
-}
+};
 
 const QUERY = gql`
   query indexContent(
@@ -166,3 +172,5 @@ const QUERY = gql`
   ${ProductProviderFragment}
   ${Image.Fragment}
 `;
+
+export default Index;

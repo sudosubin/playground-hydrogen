@@ -1,13 +1,17 @@
 import {useParams} from 'react-router-dom';
 import {useShopQuery, RawHtml} from '@shopify/hydrogen';
 import gql from 'graphql-tag';
+import {FC} from 'react';
 
 import Layout from '../../components/Layout.server';
 import NotFound from '../../components/NotFound.server';
 
-export default function Page() {
-  const {handle} = useParams();
-  const {data} = useShopQuery({query: QUERY, variables: {handle}});
+const Page: FC = () => {
+  const {handle} = useParams<{handle: string}>();
+  const {data} = useShopQuery<{pageByHandle: {title: string; body: string}}>({
+    query: QUERY,
+    variables: {handle},
+  });
 
   if (!data.pageByHandle) {
     return <NotFound />;
@@ -21,7 +25,7 @@ export default function Page() {
       <RawHtml string={page.body} className="prose mt-8" />
     </Layout>
   );
-}
+};
 
 const QUERY = gql`
   query PageDetails($handle: String!) {
@@ -31,3 +35,5 @@ const QUERY = gql`
     }
   }
 `;
+
+export default Page;

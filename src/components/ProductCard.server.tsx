@@ -1,5 +1,6 @@
 import {Image, Link} from '@shopify/hydrogen';
 import {FC} from 'react';
+
 import {IProduct} from '../interfaces/Product';
 
 import MoneyCompareAtPrice from './MoneyCompareAtPrice.client';

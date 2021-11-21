@@ -1,15 +1,21 @@
 import {useShopQuery, ProductProviderFragment} from '@shopify/hydrogen';
 import {useParams} from 'react-router-dom';
 import gql from 'graphql-tag';
+import {FC} from 'react';
 
 import ProductDetails from '../../components/ProductDetails.client';
 import NotFound from '../../components/NotFound.server';
 import Layout from '../../components/Layout.server';
+import {ProductQueryResponse} from '../../interfaces/ProductQueryResponse';
 
-export default function Product({country = {isoCode: 'US'}}) {
-  const {handle} = useParams();
+interface ProductProps {
+  country?: {isoCode: string};
+}
 
-  const {data} = useShopQuery({
+const Product: FC<ProductProps> = ({country = {isoCode: 'US'}}) => {
+  const {handle} = useParams<{handle: string}>();
+
+  const {data} = useShopQuery<ProductQueryResponse>({
     query: QUERY,
     variables: {
       country: country.isoCode,
@@ -26,7 +32,7 @@ export default function Product({country = {isoCode: 'US'}}) {
       <ProductDetails product={data.product} />
     </Layout>
   );
-}
+};
 
 const QUERY = gql`
   query product(
@@ -60,3 +66,5 @@ const QUERY = gql`
 
   ${ProductProviderFragment}
 `;
+
+export default Product;

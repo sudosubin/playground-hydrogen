@@ -1,17 +1,25 @@
 import {flattenConnection, useShopQuery} from '@shopify/hydrogen';
+import {ServerComponentResponse} from '@shopify/hydrogen/dist/esnext/framework/Hydration/ServerComponentResponse.server';
 import gql from 'graphql-tag';
+import {FC} from 'react';
 
-export default function Sitemap({response}) {
+import {SitemapQueryResponse} from '../interfaces/SitemapQueryResponse';
+
+interface SitemapProps {
+  response: ServerComponentResponse;
+}
+
+const Sitemap: FC<SitemapProps> = ({response}) => {
   response.doNotStream();
 
-  const {data} = useShopQuery({query: QUERY});
+  const {data} = useShopQuery<SitemapQueryResponse>({query: QUERY});
 
   response.headers.set('content-type', 'application/xml');
 
   return response.send(shopSitemap(data));
-}
+};
 
-function shopSitemap(data) {
+const shopSitemap = (data: SitemapQueryResponse) => {
   return `
     <urlset
       xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -40,7 +48,7 @@ function shopSitemap(data) {
         })
         .join('')}
     </urlset>`;
-}
+};
 
 const QUERY = gql`
   query Products {
@@ -62,3 +70,5 @@ const QUERY = gql`
     }
   }
 `;
+
+export default Sitemap;

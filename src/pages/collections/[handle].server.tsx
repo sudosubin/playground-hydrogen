@@ -7,18 +7,25 @@ import {
 } from '@shopify/hydrogen';
 import {useParams} from 'react-router-dom';
 import gql from 'graphql-tag';
+import {FC} from 'react';
 
 import LoadMoreProducts from '../../components/LoadMoreProducts.client';
 import Layout from '../../components/Layout.server';
 import ProductCard from '../../components/ProductCard.server';
 import NotFound from '../../components/NotFound.server';
+import {CollectionQueryResponse} from '../../interfaces/CollectionQueryResponse';
 
-export default function Collection({
+interface CollectionProps {
+  country?: {isoCode: string};
+  collectionProductCount?: number;
+}
+
+const Collection: FC<CollectionProps> = ({
   country = {isoCode: 'US'},
   collectionProductCount = 24,
-}) {
-  const {handle} = useParams();
-  const {data} = useShopQuery({
+}) => {
+  const {handle} = useParams<{handle: string}>();
+  const {data} = useShopQuery<CollectionQueryResponse>({
     query: QUERY,
     variables: {
       handle,
@@ -58,7 +65,7 @@ export default function Collection({
       )}
     </Layout>
   );
-}
+};
 
 const QUERY = gql`
   query CollectionDetails(
@@ -95,3 +102,5 @@ const QUERY = gql`
   ${MediaFileFragment}
   ${ProductProviderFragment}
 `;
+
+export default Collection;
