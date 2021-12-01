@@ -1,6 +1,7 @@
 import {useShopQuery, flattenConnection, Link} from '@shopify/hydrogen';
 import gql from 'graphql-tag';
 import {FC, ReactNode} from 'react';
+
 import {WelcomeQueryResponse} from '../interfaces/WelcomeQueryResponse';
 
 const ExternalIcon: FC = () => {
@@ -139,7 +140,7 @@ const Welcome: FC = () => {
   const products = data && flattenConnection(data.products);
   const collections = data && flattenConnection(data.collections);
 
-  const firstProduct = products ? products[0].handle : '';
+  const firstProduct = products && products.length ? products[0].handle : '';
   const totalProducts = products && products.length;
   const firstCollection = collections[0] ? collections[0].handle : '';
   const totalCollections = collections && collections.length;

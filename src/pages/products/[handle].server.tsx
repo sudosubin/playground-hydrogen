@@ -38,6 +38,7 @@ const QUERY = gql`
   query product(
     $country: CountryCode
     $handle: String!
+    $includeReferenceMetafieldDetails: Boolean = true
     $numProductMetafields: Int = 20
     $numProductVariants: Int = 250
     $numProductMedia: Int = 6

@@ -1,5 +1,6 @@
 import {Link} from '@shopify/hydrogen';
 import {FC} from 'react';
+
 import {ICollection} from '../interfaces/Collection';
 import {IProduct} from '../interfaces/Product';
 
@@ -79,6 +80,9 @@ const Footer: FC<FooterProps> = ({collection, product}) => {
                 <Link to={`/collections/${collection?.handle}`}>
                   Collection
                 </Link>
+              </li>
+              <li className="flex items-center text-sm font-medium text-gray-600 hover:text-gray-900">
+                <Link to="/404">404</Link>
               </li>
             </ul>
           </div>

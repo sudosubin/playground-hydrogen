@@ -1,9 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import express from 'express';
 
-import type HydrogenMiddleware from '@shopify/hydrogen/dist/esnext/framework/middleware';
-import hydrogenMiddleware from '@shopify/hydrogen/middleware';
+import express from 'express';
+import {hydrogenMiddleware} from '@shopify/hydrogen/middleware';
 
 const resolve = (p: string) => path.resolve(__dirname, p);
 
@@ -21,7 +20,7 @@ const createServer = async () => {
 
   app.use(
     '*',
-    (hydrogenMiddleware as typeof HydrogenMiddleware)({
+    hydrogenMiddleware({
       getServerEntrypoint: () =>
         require('./dist/server/entry-server.js').default,
       indexTemplate: indexProd,

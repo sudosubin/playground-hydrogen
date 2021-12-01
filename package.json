@@ -12,7 +12,7 @@
     "build": "yarn build:client && yarn build:server && yarn build:worker",
     "build:client": "vite build --outDir dist/client --manifest",
     "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx",
-    "build:worker": "WORKER=true vite build --outDir dist/worker --ssr worker.js",
+    "build:worker": "cross-env WORKER=true vite build --outDir dist/worker --ssr worker.js",
     "serve": "node --enable-source-maps server"
   },
   "prettier": "@shopify/prettier-config",
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.4.1",
-    "@shopify/hydrogen": "^0.6.4",
+    "@shopify/hydrogen": "^0.7.0",
     "compression": "^1.7.4",
     "express": "^4.17.1",
     "graphql-tag": "^2.12.4",

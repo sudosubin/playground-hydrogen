@@ -17,7 +17,10 @@ const Gallery: FC = () => {
   const featuredMedia = selectedVariant?.image || media![0].image;
   const featuredMediaSrc = featuredMedia?.url.split('?')[0];
   const galleryMedia = media?.filter((med) => {
-    if (med.mediaContentType === MODEL_3D_TYPE) {
+    if (
+      med.mediaContentType === MODEL_3D_TYPE ||
+      med.mediaContentType === VIDEO_TYPE
+    ) {
       return true;
     }
 
@@ -65,5 +68,6 @@ const MODEL_3D_TYPE = 'MODEL_3D';
 const MODEL_3D_PROPS = {
   interactionPromptThreshold: '0',
 };
+const VIDEO_TYPE = 'VIDEO';
 
 export default Gallery;

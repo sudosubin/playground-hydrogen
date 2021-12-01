@@ -1,5 +1,6 @@
 import {Image, Link} from '@shopify/hydrogen/client';
 import {FC} from 'react';
+
 import {ICollection} from '../interfaces/Collection';
 
 interface FeaturedCollectionProps {
@@ -16,7 +17,7 @@ const FeaturedCollection: FC<FeaturedCollectionProps> = ({collection}) => {
         <h2 className="text-gray-700 text-3xl font-bold mb-5">
           {collection.title}
         </h2>
-        <p className="text-xl text-gray-500 mb-6">{collection.description}</p>
+        <p className="text-lg text-gray-500 mb-6">{collection.description}</p>
         <Link
           to={`/collections/${collection.handle}`}
           className="inline-block bg-gray-900 text-white text-lg font-medium rounded-md py-4 px-16 uppercase"
